@@ -4,13 +4,15 @@ import barnett.joshua.lunchinator.util.DateUtil;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 public class Ballot {
-    //Voter[] voters;
+    List voters;
     Date endTime;
     UUID ballotId;
 
@@ -21,6 +23,13 @@ public class Ballot {
         } else {
             this.endTime = ballot.getEndTime();
         }
+
+        if(ballot.getVoters() == null){
+            this.voters = new ArrayList();
+        } else {
+            this.voters = ballot.voters;
+        }
+
 
         this.ballotId = UUID.randomUUID();
     }

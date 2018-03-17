@@ -16,15 +16,15 @@ public class Ballot {
     Date endTime;
     UUID ballotId;
 
-    public Ballot(Ballot ballot){
+    public Ballot(Ballot ballot) {
 
-        if (ballot.getEndTime() == null){
+        if (ballot.getEndTime() == null) {
             this.endTime = DateUtil.getDefaultDateTime();
         } else {
             this.endTime = ballot.getEndTime();
         }
 
-        if(ballot.getVoters() == null){
+        if (ballot.getVoters() == null) {
             this.voters = new ArrayList();
         } else {
             this.voters = ballot.voters;

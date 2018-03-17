@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
-public class lunchinatorController {
+public class LunchinatorController {
 
     @RequestMapping(value = "/create-ballot", method = RequestMethod.POST)
     public UUID createBallot(@RequestBody Ballot ballot) {

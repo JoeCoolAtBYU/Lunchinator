@@ -11,7 +11,7 @@ public class Voter {
     String name;
     String emailAddress;
 
-    public Voter(Voter voter){
+    public Voter(Voter voter) {
         this.name = voter.getName();
         this.emailAddress = voter.getEmailAddress();
     }

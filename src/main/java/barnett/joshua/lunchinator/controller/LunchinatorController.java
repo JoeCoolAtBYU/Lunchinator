@@ -1,19 +1,18 @@
 package barnett.joshua.lunchinator.controller;
 
 import barnett.joshua.lunchinator.domain.Ballot;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.UUID;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api")
 public class LunchinatorController {
 
     @RequestMapping(value = "/create-ballot", method = RequestMethod.POST)
-    public UUID createBallot(@RequestBody Ballot ballot) {
-        return new Ballot(ballot).getBallotId();
+    @ResponseBody
+    public ResponseEntity<String> createBallot(@RequestBody Ballot ballot) {
+        Ballot ballotId = new Ballot(ballot);
+        return new ResponseEntity<String>(ballotId.returnStringId(), HttpStatus.OK);
     }
 }

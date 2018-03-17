@@ -34,4 +34,10 @@ public class Ballot {
         this.ballotId = UUID.randomUUID();
     }
 
+    public String returnStringId(){
+        return "{" +
+                  "\"ballotId\":\"" + ballotId + "\"" +
+                "}";
+    }
+
 }

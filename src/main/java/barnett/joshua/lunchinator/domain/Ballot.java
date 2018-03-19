@@ -1,5 +1,7 @@
 package barnett.joshua.lunchinator.domain;
 
+import barnett.joshua.lunchinator.model.BallotModel;
+import barnett.joshua.lunchinator.model.VoterModel;
 import barnett.joshua.lunchinator.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -12,11 +14,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ballot {
+public class Ballot implements Comparable<Ballot> {
     List<Voter> voters;
     String endTime;
 
@@ -44,6 +47,26 @@ public class Ballot {
         this.ballotId = UUID.randomUUID();
     }
 
+    public Ballot(BallotModel ballot, List<VoterModel> voters) {
+
+        if (ballot.getEndTime() == null) {
+            this.endTime = DateUtil.getDefaultDateTime().toString();
+            setEndDate(endTime);
+        } else {
+            this.endTime = ballot.getEndTime();
+            setEndDate(endTime);
+        }
+
+        if (ballot.getVoters() == null) {
+            this.voters = new ArrayList();
+        } else {
+            this.voters = voters.stream().map(voter -> new Voter(voter)).collect(Collectors.toList());
+        }
+
+
+        this.ballotId = UUID.randomUUID();
+    }
+
     public String returnStringId() {
         return "{" +
                 "\"ballotId\":\"" + ballotId + "\"" +
@@ -65,4 +88,14 @@ public class Ballot {
         }
     }
 
+    @Override
+    public int compareTo(Ballot o) {
+        if (this.endDate.before(o.endDate)) {
+            return 1;
+        } else if (this.endDate.after(o.endDate)) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
 }

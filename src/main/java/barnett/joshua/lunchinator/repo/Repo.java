@@ -3,6 +3,7 @@ package barnett.joshua.lunchinator.repo;
 import barnett.joshua.lunchinator.Application;
 import barnett.joshua.lunchinator.domain.Ballot;
 import barnett.joshua.lunchinator.model.BallotAccessor;
+import barnett.joshua.lunchinator.model.BallotModel;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.MappingManager;
 import org.slf4j.Logger;
@@ -29,8 +30,14 @@ public class Repo {
 
     }
 
-    public Ballot getBallotById(UUID ballotId) {
+    private BallotModel getBallotByIdModel(UUID ballotId) {
         return this.ballotAccessor.getBallotById(ballotId);
+
+    }
+
+    public Ballot getBallot(UUID ballotId) {
+        BallotModel ballotByIdModel = this.getBallotByIdModel(ballotId);
+        return new Ballot(ballotByIdModel, ballotByIdModel.getVoters());
     }
 
 

@@ -13,6 +13,6 @@ public class BallotService {
     Repo repo;
 
     public Ballot getBallot(UUID ballotId){
-        return repo.getBallotById(ballotId);
+        return repo.getBallot(ballotId);
     }
 }

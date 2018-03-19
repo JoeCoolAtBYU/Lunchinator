@@ -23,8 +23,9 @@ public class LunchinatorController {
     @RequestMapping(value = "/create-ballot", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> createBallot(@RequestBody Ballot ballot) {
-        Ballot ballotId = new Ballot(ballot);
-        return new ResponseEntity<String>(ballotId.returnStringId(), HttpStatus.OK);
+        Ballot returnBallot = this.ballotService.getBallot(ballot);
+
+        return new ResponseEntity<String>(returnBallot.returnStringId(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/get-ballot/{ballotId}", method = RequestMethod.GET)

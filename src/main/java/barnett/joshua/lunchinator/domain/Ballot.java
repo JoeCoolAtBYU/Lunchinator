@@ -63,8 +63,11 @@ public class Ballot implements Comparable<Ballot> {
             this.voters = voters.stream().map(voter -> new Voter(voter)).collect(Collectors.toList());
         }
 
-
-        this.ballotId = UUID.randomUUID();
+        if (ballot.getBallotId() == null) {
+            this.ballotId = UUID.randomUUID();
+        } else {
+            this.ballotId = ballot.getBallotId();
+        }
     }
 
     public String returnStringId() {

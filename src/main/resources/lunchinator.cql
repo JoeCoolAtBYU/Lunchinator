@@ -8,7 +8,7 @@ name text,
 emailAddress text
 );
 
-CREATE TYPE lunch.restraunt (
+CREATE TYPE lunch.restaurant (
 id int,
 name text,
 waitTimeMinutes int,
@@ -29,8 +29,6 @@ rating text,
 review text,
 reviewerImage text
 );
-
-
 
 CREATE TABLE lunch.ballotById (
 ballotId UUID,

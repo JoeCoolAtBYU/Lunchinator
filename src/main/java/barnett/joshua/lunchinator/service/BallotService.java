@@ -15,4 +15,9 @@ public class BallotService {
     public Ballot getBallot(UUID ballotId){
         return repo.getBallot(ballotId);
     }
+
+    public Ballot getBallot(Ballot ballot){
+        UUID ballotId = this.repo.saveBallot(ballot);
+        return this.repo.getBallot(ballotId);
+    }
 }

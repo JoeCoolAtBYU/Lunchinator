@@ -1,5 +1,6 @@
 package barnett.joshua.lunchinator.model;
 
+import barnett.joshua.lunchinator.domain.Voter;
 import com.datastax.driver.mapping.annotations.Field;
 import com.datastax.driver.mapping.annotations.UDT;
 import lombok.Data;
@@ -15,4 +16,9 @@ public class VoterModel {
 
     @Field(name = "emailAddress")
     String emailAddress;
+
+    public VoterModel(Voter voter){
+        this.name = voter.getName();
+        this.emailAddress = voter.getEmailAddress();
+    }
 }

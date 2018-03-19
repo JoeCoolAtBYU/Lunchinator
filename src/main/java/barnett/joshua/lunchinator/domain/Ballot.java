@@ -2,6 +2,7 @@ package barnett.joshua.lunchinator.domain;
 
 import barnett.joshua.lunchinator.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,8 +15,9 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Ballot {
-    List voters;
+    List<Voter> voters;
     String endTime;
 
     @JsonIgnore

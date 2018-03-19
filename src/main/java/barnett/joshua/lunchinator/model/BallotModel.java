@@ -12,6 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(keyspace = "lunch", name = "ballotById", readConsistency = "LOCAL_QUORUM", writeConsistency = "LOCAL_QUORUM")
 public class BallotModel {
+
     @Column(name = "ballotId")
     UUID ballotId;
 

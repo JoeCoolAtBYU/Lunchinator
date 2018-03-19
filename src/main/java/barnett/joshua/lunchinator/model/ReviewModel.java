@@ -13,7 +13,7 @@ public class ReviewModel {
     @Field(name = "id")
     int id;
 
-    @Field(name="restaurant")
+    @Field(name = "restaurant")
     String restaurant;
 
     @Field(name = "reviewr")

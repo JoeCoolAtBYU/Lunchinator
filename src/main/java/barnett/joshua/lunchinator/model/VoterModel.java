@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@UDT(keyspace = "lunch", name="voter")
+@UDT(keyspace = "lunch", name = "voter")
 public class VoterModel {
 
     @Field(name = "name")

@@ -44,13 +44,13 @@ public class Ballot {
         this.ballotId = UUID.randomUUID();
     }
 
-    public String returnStringId(){
+    public String returnStringId() {
         return "{" +
-                  "\"ballotId\":\"" + ballotId + "\"" +
+                "\"ballotId\":\"" + ballotId + "\"" +
                 "}";
     }
 
-    public void setEndTime(String endTime){
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
 
         setEndDate(endTime);

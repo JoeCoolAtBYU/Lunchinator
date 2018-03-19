@@ -5,6 +5,7 @@ import barnett.joshua.lunchinator.service.BallotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,9 +29,9 @@ public class LunchinatorController {
         return new ResponseEntity<String>(returnBallot.returnStringId(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get-ballot/{ballotId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ballot/{ballotId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Ballot> getBallot(UUID ballotId) {
+    public ResponseEntity<Ballot> getBallot(@PathVariable UUID ballotId) {
         return new ResponseEntity<Ballot>(this.ballotService.getBallot(ballotId), HttpStatus.OK);
     }
 }

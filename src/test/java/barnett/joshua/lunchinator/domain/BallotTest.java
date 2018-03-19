@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +27,7 @@ public class BallotTest {
 
     @Test
     public void testGetEndTime() {
-        Date endTime = new Date();
+        String endTime = "3/22/12 11:45";
         ballot.setEndTime(endTime);
         assertEquals(endTime, ballot.getEndTime());
     }
@@ -60,7 +59,7 @@ public class BallotTest {
 
     @Test
     public void testConstuctorDateSet(){
-        Date endTime = new Date();
+        String endTime = "11/12/12 11:45";
         ballot.setEndTime(endTime);
         Ballot ballot2 = new Ballot(ballot);
 
@@ -71,7 +70,7 @@ public class BallotTest {
 
     @Test
     public void testConstuctorDateSetVotersSet(){
-        Date endTime = new Date();
+        String endTime = "11/12/12 11:45";
         ballot.setEndTime(endTime);
         ballot.setVoters(voters);
 

@@ -16,10 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,7 +48,7 @@ public class LunchinatorControllerTest {
         objectMapper = new ObjectMapper();
 
         testBallot = new Ballot();
-        testBallot.setEndTime(new Date());
+        testBallot.setEndTime("11/12/12 11:45");
         testBallot.setVoters(new ArrayList());
 
 

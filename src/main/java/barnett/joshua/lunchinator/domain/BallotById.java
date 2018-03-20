@@ -34,10 +34,10 @@ public class BallotById implements Comparable<BallotById> {
 
         if (ballotById.getEndTime() == null) {
             this.endTime = DateUtil.getDefaultDateTime().toString();
-            setEndDate(endTime);
+            setEndDate(this.endTime);
         } else {
             this.endTime = ballotById.getEndTime();
-            setEndDate(endTime);
+            setEndDate(this.endTime);
         }
 
         if (ballotById.getVoters() == null) {
@@ -63,10 +63,10 @@ public class BallotById implements Comparable<BallotById> {
 
         if (ballot.getEndTime() == null) {
             this.endTime = DateUtil.getDefaultDateTime().toString();
-            setEndDate(endTime);
+            setEndDate(this.endTime);
         } else {
             this.endTime = ballot.getEndTime();
-            setEndDate(endTime);
+            setEndDate(this.endTime);
         }
 
         if (ballot.getVoters() == null) {
@@ -92,7 +92,7 @@ public class BallotById implements Comparable<BallotById> {
 
     public String returnStringId() {
         return "{" +
-                "\"ballotId\":\"" + ballotId + "\"" +
+                "\"ballotId\":\"" + this.ballotId + "\"" +
                 "}";
     }
 
@@ -155,7 +155,7 @@ public class BallotById implements Comparable<BallotById> {
     }
 
     public BallotChoices getBallotChoices() {
-        Collections.shuffle(ballotChoices.getChoices());
-        return ballotChoices;
+        Collections.shuffle(this.ballotChoices.getChoices());
+        return this.ballotChoices;
     }
 }

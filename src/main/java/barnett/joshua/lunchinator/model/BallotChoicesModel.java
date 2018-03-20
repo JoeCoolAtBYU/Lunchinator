@@ -21,8 +21,8 @@ public class BallotChoicesModel {
 
     public BallotChoicesModel (List<RestaurantReviewModel> restaurantReviewModels){
         this.choices = restaurantReviewModels.stream().map(rr -> new ChoiceModel(rr)).collect(Collectors.toList());
-        populateSuggestion(choices);
-        Collections.shuffle(choices);
+        populateSuggestion(this.choices);
+        Collections.shuffle(this.choices);
     }
 
     public BallotChoicesModel(BallotChoices ballotChoices) {

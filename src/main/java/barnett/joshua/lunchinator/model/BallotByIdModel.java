@@ -39,7 +39,7 @@ public class BallotByIdModel {
     }
 
     public BallotChoicesModel getBallotChoices() {
-        Collections.shuffle(ballotChoices.getChoices());
-        return ballotChoices;
+        Collections.shuffle(this.ballotChoices.getChoices());
+        return this.ballotChoices;
     }
 }

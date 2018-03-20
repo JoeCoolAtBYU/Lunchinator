@@ -29,7 +29,7 @@ public class RestaurantService {
         RestTemplate restTemplate = new RestTemplate();
         JsonNode result = restTemplate.getForObject(uri, JsonNode.class);
 
-        List<RestaurantModel> restaurantModels = repo.getRestaurants();
+        List<RestaurantModel> restaurantModels = this.repo.getRestaurants();
         if (result.size() != restaurantModels.size()) {
             populateRestaurantTable(result);
 
@@ -77,7 +77,7 @@ public class RestaurantService {
 
             r.setDescription(nextRestObject.get("description").asText());
 
-            repo.saveRestaurant(r);
+            this.repo.saveRestaurant(r);
 
             restaurantModels.add(r);
         }
@@ -96,14 +96,14 @@ public class RestaurantService {
         fiveRestaurantsList = new ArrayList<>(fiveRestaurants.values());
 
         for (RestaurantModel r : fiveRestaurantsList) {
-            reviewModels.add(repo.getRestaurantReveiwsByName(r.getName()));
+            reviewModels.add(this.repo.getRestaurantReveiwsByName(r.getName()));
         }
 
         ballotModel.setBallotChoices(new BallotChoicesModel(reviewModels));
     }
 
     private void getFiveRandomRestaurants(Map<Integer, RestaurantModel> fiveRestaurants) {
-        List<RestaurantModel> restaurants = repo.getRestaurants();
+        List<RestaurantModel> restaurants = this.repo.getRestaurants();
 
         Map<Integer, RestaurantModel> restMap = restaurants.stream().collect(Collectors.toMap(RestaurantModel::getId, restaurantModel -> restaurantModel));
 

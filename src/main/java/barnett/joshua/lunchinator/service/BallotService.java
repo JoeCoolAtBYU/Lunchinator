@@ -20,11 +20,11 @@ public class BallotService {
     RestaurantReviewService restaurantReviewService;
 
     public BallotById getBallot(UUID ballotId){
-        BallotByIdModel ballotById = repo.getBallot(ballotId);
+        BallotByIdModel ballotById = this.repo.getBallot(ballotId);
         if (ballotById.getBallotChoices() == null){
-            restaurantService.getAllRestaurants();
-            restaurantReviewService.getAllReviews();
-            restaurantService.getFiveRestaurants(ballotById);
+            this.restaurantService.getAllRestaurants();
+            this.restaurantReviewService.getAllReviews();
+            this.restaurantService.getFiveRestaurants(ballotById);
             this.repo.saveBallot(ballotById);
         }
         return new BallotById(ballotById, ballotById.getVoters());

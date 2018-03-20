@@ -21,7 +21,7 @@ public class RestaurantReviewService {
         RestTemplate restTemplate = new RestTemplate();
         JsonNode result = restTemplate.getForObject(uri, JsonNode.class);
 
-        List<RestaurantReviewModel> restaurantReviewModels = repo.getRestaurantReviews();
+        List<RestaurantReviewModel> restaurantReviewModels = this.repo.getRestaurantReviews();
         if (result.size() != restaurantReviewModels.size()) {
             populateRestaurantReviewTable(result);
         }
@@ -40,7 +40,7 @@ public class RestaurantReviewService {
             r.setTopReviewer(nextRestObject.get("reviewer").asText());
             r.setReview(nextRestObject.get("review").asText());
 
-            repo.saveRestaurantReview(r);
+            this.repo.saveRestaurantReview(r);
         }
     }
 }

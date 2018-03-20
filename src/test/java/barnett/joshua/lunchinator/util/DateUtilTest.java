@@ -10,16 +10,16 @@ import static org.junit.Assert.assertEquals;
 
 public class DateUtilTest {
 
-    SimpleDateFormat localDateFormat;
+    private SimpleDateFormat localDateFormat;
 
     @Before
     public void setUp() throws Exception {
-        localDateFormat = new SimpleDateFormat("HH:mm");
+        this.localDateFormat = new SimpleDateFormat("HH:mm");
     }
 
     @Test
     public void testGetDefaultDateTime() {
         Date testDate = DateUtil.getDefaultDateTime();
-        assertEquals("11:45", localDateFormat.format(testDate));
+        assertEquals("11:45", this.localDateFormat.format(testDate));
     }
 }

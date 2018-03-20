@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,8 +46,17 @@ public class BallotById implements Comparable<BallotById> {
             this.voters = ballotById.voters;
         }
 
+        if (ballotById.getBallotId() == null) {
+            this.ballotId = UUID.randomUUID();
+        } else {
+            this.ballotId = ballotById.getBallotId();
+        }
 
-        this.ballotId = UUID.randomUUID();
+        if (ballotById.getBallotChoices() == null) {
+            this.ballotChoices = new BallotChoices();
+        } else {
+            this.ballotChoices = ballotById.getBallotChoices();
+        }
     }
 
     public BallotById(BallotByIdModel ballot, List<VoterModel> voters) {
@@ -71,7 +81,7 @@ public class BallotById implements Comparable<BallotById> {
             this.ballotId = ballot.getBallotId();
         }
 
-        if (ballot.getBallotChoices() == null){
+        if (ballot.getBallotChoices() == null) {
 
             this.ballotChoices = new BallotChoices();
         } else {
@@ -142,5 +152,10 @@ public class BallotById implements Comparable<BallotById> {
         } else {
             this.ballotChoices = ballotChoices;
         }
+    }
+
+    public BallotChoices getBallotChoices() {
+        Collections.shuffle(ballotChoices.getChoices());
+        return ballotChoices;
     }
 }

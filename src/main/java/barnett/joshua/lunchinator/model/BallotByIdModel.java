@@ -6,6 +6,7 @@ import com.datastax.driver.mapping.annotations.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -38,6 +39,7 @@ public class BallotByIdModel {
     }
 
     public BallotChoicesModel getBallotChoices() {
+        Collections.shuffle(ballotChoices.getChoices());
         return ballotChoices;
     }
 }

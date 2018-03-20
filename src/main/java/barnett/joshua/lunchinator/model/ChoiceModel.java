@@ -39,6 +39,6 @@ public class ChoiceModel implements Comparable<ChoiceModel> {
 
     @Override
     public int compareTo(ChoiceModel o) {
-        return Integer.parseInt(this.averageReview) - Integer.parseInt(o.getAverageReview());
+        return Integer.parseInt(o.getAverageReview()) - Integer.parseInt(this.getAverageReview());
     }
 }

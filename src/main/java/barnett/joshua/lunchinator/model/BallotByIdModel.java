@@ -1,6 +1,6 @@
 package barnett.joshua.lunchinator.model;
 
-import barnett.joshua.lunchinator.domain.Ballot;
+import barnett.joshua.lunchinator.domain.BallotById;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.Table;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @Table(keyspace = "lunch", name = "ballotById", readConsistency = "LOCAL_QUORUM", writeConsistency = "LOCAL_QUORUM")
-public class BallotModel {
+public class BallotByIdModel {
 
     @Column(name = "ballotId")
     UUID ballotId;
@@ -27,14 +27,14 @@ public class BallotModel {
     @Column(name = "ballotChoices")
     BallotChoicesModel ballotChoices;
 
-    public BallotModel(Ballot ballot) {
-        if (ballot.getBallotId() == null) {
+    public BallotByIdModel(BallotById ballotById) {
+        if (ballotById.getBallotId() == null) {
             this.ballotId = UUID.randomUUID();
         } else {
-            this.ballotId = ballot.getBallotId();
+            this.ballotId = ballotById.getBallotId();
         }
-        this.endTime = ballot.getEndTime();
-        this.voters = ballot.getVoters().stream().map(voter -> new VoterModel(voter)).collect(Collectors.toList());
+        this.endTime = ballotById.getEndTime();
+        this.voters = ballotById.getVoters().stream().map(voter -> new VoterModel(voter)).collect(Collectors.toList());
     }
 
     public BallotChoicesModel getBallotChoices() {

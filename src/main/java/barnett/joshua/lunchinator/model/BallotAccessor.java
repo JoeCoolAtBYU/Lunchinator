@@ -11,5 +11,5 @@ import java.util.UUID;
 @Accessor
 public interface BallotAccessor {
     @Query("Select * from ballotById where ballotId = ?")
-    BallotModel getBallotById(UUID ballotId);
+    BallotByIdModel getBallotById(UUID ballotId);
 }

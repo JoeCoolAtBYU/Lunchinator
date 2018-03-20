@@ -1,11 +1,13 @@
 package barnett.joshua.lunchinator.repo;
 
 import barnett.joshua.lunchinator.Application;
-import barnett.joshua.lunchinator.domain.Ballot;
+import barnett.joshua.lunchinator.domain.BallotById;
+import barnett.joshua.lunchinator.exception.BallotNotFoundException;
 import barnett.joshua.lunchinator.model.BallotAccessor;
-import barnett.joshua.lunchinator.model.BallotModel;
+import barnett.joshua.lunchinator.model.BallotByIdModel;
 import barnett.joshua.lunchinator.model.RestaurantAccessor;
 import barnett.joshua.lunchinator.model.RestaurantModel;
+import barnett.joshua.lunchinator.model.RestaurantReviewAccessor;
 import barnett.joshua.lunchinator.model.RestaurantReviewModel;
 import com.datastax.driver.core.BatchStatement;
 import com.datastax.driver.core.Session;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository("cassandra")
@@ -29,40 +32,52 @@ public class Repo {
     private MappingManager mappingManager;
     private BallotAccessor ballotAccessor;
     private RestaurantAccessor restaurantAccessor;
-    private Mapper<BallotModel> ballotModelMapper;
+    private RestaurantReviewAccessor restaurantReviewAccessor;
+    private Mapper<BallotByIdModel> ballotModelMapper;
     private Mapper<RestaurantModel> restaurantMapper;
-    private Mapper<RestaurantReviewModel> restaurantReviewModelMapper;
+    private Mapper<RestaurantReviewModel> restaurantReviewMapper;
 
     @Autowired
     public Repo(Session session) {
         this.mappingManager = new MappingManager(session);
+
         this.ballotAccessor = this.mappingManager.createAccessor(BallotAccessor.class);
         this.restaurantAccessor = this.mappingManager.createAccessor(RestaurantAccessor.class);
-        this.ballotModelMapper = this.mappingManager.mapper(BallotModel.class);
+        this.restaurantReviewAccessor = this.mappingManager.createAccessor(RestaurantReviewAccessor.class);
+
+        this.ballotModelMapper = this.mappingManager.mapper(BallotByIdModel.class);
         this.restaurantMapper = this.mappingManager.mapper(RestaurantModel.class);
-        this.restaurantReviewModelMapper = this.mappingManager.mapper(RestaurantReviewModel.class);
+        this.restaurantReviewMapper = this.mappingManager.mapper(RestaurantReviewModel.class);
 
     }
 
-    private BallotModel getBallotByIdModel(UUID ballotId) {
-        return this.ballotAccessor.getBallotById(ballotId);
+    private Optional<BallotByIdModel> getBallotByIdModel(UUID ballotId) {
+        return Optional.ofNullable(this.ballotAccessor.getBallotById(ballotId));
 
     }
 
-    public Ballot getBallot(UUID ballotId) {
-        BallotModel ballotByIdModel = this.getBallotByIdModel(ballotId);
-        return new Ballot(ballotByIdModel, ballotByIdModel.getVoters());
+    public BallotByIdModel getBallot(UUID ballotId) {
+        return this.getBallotByIdModel(ballotId).orElseThrow(() -> new BallotNotFoundException(ballotId));
     }
 
-    public UUID saveBallot(Ballot ballot) {
-        BallotModel ballot1 = new BallotModel(ballot);
+    public UUID saveBallot(BallotById ballotById) {
+        BallotByIdModel ballot1 = new BallotByIdModel(ballotById);
         saveBallot(ballot1);
         return ballot1.getBallotId();
     }
 
-    private void saveBallot(BallotModel ballot) {
+    public void saveBallot(BallotByIdModel ballot) {
         BatchStatement batchStatement = new BatchStatement();
+
         batchStatement.add(this.ballotModelMapper.saveQuery(ballot));
+
+        this.session.execute(batchStatement);
+
+    }
+
+    public void saveRestaurant(RestaurantModel r) {
+        BatchStatement batchStatement = new BatchStatement();
+        batchStatement.add(this.restaurantMapper.saveQuery(r));
         this.session.execute(batchStatement);
     }
 
@@ -70,23 +85,17 @@ public class Repo {
         return this.restaurantAccessor.getAllRestaurants().all();
     }
 
-    public void saveRestaurant(RestaurantModel model) {
+    public void saveRestaurantReview(RestaurantReviewModel r) {
         BatchStatement batchStatement = new BatchStatement();
-        batchStatement.add(this.restaurantMapper.saveQuery(model));
+        batchStatement.add(this.restaurantReviewMapper.saveQuery(r));
         this.session.execute(batchStatement);
-    }
-
-    public RestaurantReviewModel getRestaurantReveiwByName(String name) {
-        return this.restaurantAccessor.getRestaurantReviewByName(name);
     }
 
     public List<RestaurantReviewModel> getRestaurantReviews() {
-        return this.restaurantAccessor.getRestaurantReviews().all();
+        return this.restaurantReviewAccessor.getAllReviews().all();
     }
 
-    public void saveRestaurantReview(RestaurantReviewModel reviewModel) {
-        BatchStatement batchStatement = new BatchStatement();
-        batchStatement.add(this.restaurantReviewModelMapper.saveQuery(reviewModel));
-        this.session.execute(batchStatement);
+    public RestaurantReviewModel getRestaurantReveiwsByName(String name) {
+        return this.restaurantReviewAccessor.getRestaurantReview(name);
     }
 }

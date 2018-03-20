@@ -1,6 +1,6 @@
 package barnett.joshua.lunchinator.controller;
 
-import barnett.joshua.lunchinator.domain.Ballot;
+import barnett.joshua.lunchinator.domain.BallotById;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class LunchinatorControllerTest {
     private MockMvc mockMvc;
 
     private ObjectMapper objectMapper;
-    private Ballot testBallot;
+    private BallotById testBallotById;
     UUID ballotId = UUID.randomUUID();
 
     @Before
@@ -47,9 +47,9 @@ public class LunchinatorControllerTest {
 
         objectMapper = new ObjectMapper();
 
-        testBallot = new Ballot();
-        testBallot.setEndTime("11/12/12 11:45");
-        testBallot.setVoters(new ArrayList());
+        testBallotById = new BallotById();
+        testBallotById.setEndTime("11/12/12 11:45");
+        testBallotById.setVoters(new ArrayList());
 
 
     }
@@ -58,7 +58,7 @@ public class LunchinatorControllerTest {
     public void createBallot() throws Exception {
         MvcResult test = this.mockMvc.perform(post("/api/create-ballot")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsBytes(testBallot)))
+                .content(this.objectMapper.writeValueAsBytes(testBallotById)))
                 .andExpect(status().isOk())
                 .andReturn();
 

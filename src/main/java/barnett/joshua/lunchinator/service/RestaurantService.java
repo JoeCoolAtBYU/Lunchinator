@@ -1,7 +1,7 @@
 package barnett.joshua.lunchinator.service;
 
+import barnett.joshua.lunchinator.model.BallotByIdModel;
 import barnett.joshua.lunchinator.model.BallotChoicesModel;
-import barnett.joshua.lunchinator.model.BallotModel;
 import barnett.joshua.lunchinator.model.RestaurantModel;
 import barnett.joshua.lunchinator.model.RestaurantReviewModel;
 import barnett.joshua.lunchinator.repo.Repo;
@@ -32,6 +32,7 @@ public class RestaurantService {
         List<RestaurantModel> restaurantModels = repo.getRestaurants();
         if (result.size() != restaurantModels.size()) {
             populateRestaurantTable(result);
+
         }
     }
 
@@ -83,7 +84,7 @@ public class RestaurantService {
         return restaurantModels;
     }
 
-    public void getFiveRestaurants(BallotModel ballotModel) {
+    public void getFiveRestaurants(BallotByIdModel ballotModel) {
         Map<Integer, RestaurantModel> fiveRestaurants = new HashMap<>();
         List<RestaurantModel> fiveRestaurantsList;
         List<RestaurantReviewModel> reviewModels = new ArrayList<>();
@@ -95,7 +96,7 @@ public class RestaurantService {
         fiveRestaurantsList = new ArrayList<>(fiveRestaurants.values());
 
         for (RestaurantModel r : fiveRestaurantsList) {
-            reviewModels.add(repo.getRestaurantReveiwByName(r.getName()));
+            reviewModels.add(repo.getRestaurantReveiwsByName(r.getName()));
         }
 
         ballotModel.setBallotChoices(new BallotChoicesModel(reviewModels));

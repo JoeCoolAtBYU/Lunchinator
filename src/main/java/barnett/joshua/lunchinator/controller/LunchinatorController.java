@@ -1,6 +1,7 @@
 package barnett.joshua.lunchinator.controller;
 
-import barnett.joshua.lunchinator.domain.Ballot;
+import barnett.joshua.lunchinator.domain.BallotById;
+import barnett.joshua.lunchinator.domain.BallotChoices;
 import barnett.joshua.lunchinator.service.BallotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,15 +24,15 @@ public class LunchinatorController {
 
     @RequestMapping(value = "/create-ballot", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<String> createBallot(@RequestBody Ballot ballot) {
-        Ballot returnBallot = this.ballotService.getBallot(ballot);
+    public ResponseEntity<String> createBallot(@RequestBody BallotById ballotById) {
+        BallotById returnBallotById = this.ballotService.getBallot(ballotById);
 
-        return new ResponseEntity<String>(returnBallot.returnStringId(), HttpStatus.OK);
+        return new ResponseEntity<String>(returnBallotById.returnStringId(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/ballot/{ballotId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<Ballot> getBallot(@PathVariable UUID ballotId) {
-        return new ResponseEntity<Ballot>(this.ballotService.getBallot(ballotId), HttpStatus.OK);
+    public ResponseEntity<BallotChoices> getBallot(@PathVariable UUID ballotId) {
+        return new ResponseEntity<BallotChoices>(this.ballotService.getBallot(ballotId).getBallotChoices(), HttpStatus.OK);
     }
 }

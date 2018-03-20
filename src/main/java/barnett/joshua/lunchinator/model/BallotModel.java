@@ -24,6 +24,9 @@ public class BallotModel {
     @Column(name = "voters")
     List<VoterModel> voters;
 
+    @Column(name = "ballotChoices")
+    BallotChoicesModel ballotChoices;
+
     public BallotModel(Ballot ballot) {
         if (ballot.getBallotId() == null) {
             this.ballotId = UUID.randomUUID();
@@ -32,5 +35,9 @@ public class BallotModel {
         }
         this.endTime = ballot.getEndTime();
         this.voters = ballot.getVoters().stream().map(voter -> new VoterModel(voter)).collect(Collectors.toList());
+    }
+
+    public BallotChoicesModel getBallotChoices() {
+        return ballotChoices;
     }
 }

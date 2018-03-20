@@ -1,38 +1,42 @@
-DROP KEYSPACE IF EXISTS "lunch";
+DROP KEYSPACE IF exists "lunch";
 
 // for local installs
-CREATE KEYSPACE "lunch" WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+CREATE KEYSPACE "lunch"
+WITH replication = {'class':'SimpleStrategy', 'replication_factor':1};
 
 CREATE TYPE lunch.voter (
 name text,
 emailAddress text
 );
 
-CREATE TYPE lunch.restaurant (
-id int,
-name text,
-waitTimeMinutes int,
-types List<text>,
-image text,
-description text,
-votes int,
-dateTime text,
-averageReview text,
-topReviewer text
+CREATE TYPE lunch.ballotChoices (
+suggestion text,
+choices text
 );
 
-CREATE TYPE lunch.review (
+CREATE TABLE lunch.restaurantReview (
 id int,
-restaurant text,
-reviewer text,
-rating text,
+name text,
+averageReview text,
+topReviewer text,
 review text,
-reviewerImage text
+Primary key (name)
 );
 
 CREATE TABLE lunch.ballotById (
 ballotId UUID,
 endTime text,
-voters list<frozen<voter>>,
+voters list < frozen< voter > >,
+ballotChoices text,
 PRIMARY KEY (ballotId)
+);
+
+CREATE TABLE lunch.restaurant (
+id int,
+name text,
+waitTimeMinutes int,
+types List < text >,
+image text,
+description text,
+PRIMARY KEY (id, name)
 );

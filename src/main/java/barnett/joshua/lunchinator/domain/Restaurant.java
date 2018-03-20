@@ -1,5 +1,6 @@
 package barnett.joshua.lunchinator.domain;
 
+import barnett.joshua.lunchinator.model.RestaurantModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,14 @@ public class Restaurant {
     int waitTimeMinutes;
     List<String> types;
     String image;
-    String descrioption;
-    int votes;
-    String dateTime;
-    String averageReview;
-    String topReviewer;
+    String description;
+
+    public Restaurant(RestaurantModel restaurant){
+        this.id = restaurant.getId();
+        this.name = restaurant.getName();
+        this.waitTimeMinutes = restaurant.getWaitTimeMinutes();
+        this.types = restaurant.getTypes();
+        this.image = restaurant.getImage();
+        this.description = restaurant.getDescription();
+    }
 }

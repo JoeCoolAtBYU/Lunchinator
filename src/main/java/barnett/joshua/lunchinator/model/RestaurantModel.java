@@ -1,7 +1,8 @@
 package barnett.joshua.lunchinator.model;
 
-import com.datastax.driver.mapping.annotations.Field;
-import com.datastax.driver.mapping.annotations.UDT;
+import barnett.joshua.lunchinator.domain.Restaurant;
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,36 +10,33 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@UDT(keyspace = "lunch", name = "restaurant")
+@Table(keyspace = "lunch", name = "restaurant")
 public class RestaurantModel {
 
-    @Field(name = "id")
+    @Column(name = "id")
     int id;
 
-    @Field(name = "name")
+    @Column(name = "name")
     String name;
 
-    @Field(name = "waitTimeMinutes")
+    @Column(name = "waitTimeMinutes")
     int waitTimeMinutes;
 
-    @Field(name = "types")
+    @Column(name = "types")
     List<String> types;
 
-    @Field(name = "image")
+    @Column(name = "image")
     String image;
 
-    @Field(name = "description")
+    @Column(name = "description")
     String description;
 
-    @Field(name = "votes")
-    int votes;
-
-    @Field(name = "dateTime")
-    String dateTime;
-
-    @Field(name = "averageReview")
-    String averageReview;
-
-    @Field(name = "topReviewer")
-    String topReviewer;
+    public RestaurantModel(Restaurant restaurant){
+        this.id = restaurant.getId();
+        this.name = restaurant.getName();
+        this.waitTimeMinutes = restaurant.getWaitTimeMinutes();
+        this.types = restaurant.getTypes();
+        this.image = restaurant.getImage();
+        this.description = restaurant.getDescription();
+    }
 }

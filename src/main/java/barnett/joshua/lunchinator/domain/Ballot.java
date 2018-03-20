@@ -26,6 +26,7 @@ public class Ballot implements Comparable<Ballot> {
     @JsonIgnore
     Date endDate;
     UUID ballotId;
+    BallotChoices ballotChoices;
 
     public Ballot(Ballot ballot) {
 

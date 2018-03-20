@@ -17,26 +17,26 @@ public class BallotByIdTest {
     private List<Voter> voters;
 
     @Before
-    public void setUp() throws Exception {
-        ballotById = new BallotById();
+    public void setUp() {
+        this.ballotById = new BallotById();
 
-        voters = new ArrayList<>();
-        voters.add(new Voter("Bruce Wayne", "IRock@bat.org"));
-        voters.add(new Voter("The Joker", "hahahahahaha@insanity.org"));
+        this.voters = new ArrayList<>();
+        this.voters.add(new Voter("Bruce Wayne", "IRock@bat.org"));
+        this.voters.add(new Voter("The Joker", "hahahahahaha@insanity.org"));
     }
 
     @Test
     public void testGetEndTime() {
         String endTime = "3/22/12 11:45";
-        ballotById.setEndTime(endTime);
-        assertEquals(endTime, ballotById.getEndTime());
+        this.ballotById.setEndTime(endTime);
+        assertEquals(endTime, this.ballotById.getEndTime());
     }
 
     @Test
     public void testGetBallotId() {
         UUID ballotId = UUID.randomUUID();
-        ballotById.setBallotId(ballotId);
-        assertEquals(ballotId, ballotById.getBallotId());
+        this.ballotById.setBallotId(ballotId);
+        assertEquals(ballotId, this.ballotById.getBallotId());
     }
 
     @Test
@@ -44,13 +44,13 @@ public class BallotByIdTest {
         List<Voter> voters = new ArrayList<>();
         voters.add(new Voter("Bruce Wayne", "IRock@bat.org"));
         voters.add(new Voter("The Joker", "hahahahahaha@insanity.org"));
-        ballotById.setVoters(voters);
-        assertEquals(voters, ballotById.getVoters());
+        this.ballotById.setVoters(voters);
+        assertEquals(voters, this.ballotById.getVoters());
     }
 
     @Test
     public void testConstructor() {
-        BallotById ballotById2 = new BallotById(ballotById);
+        BallotById ballotById2 = new BallotById(this.ballotById);
 
         assertNotNull(ballotById2.getBallotId());
         assertEquals("11:45", new SimpleDateFormat("HH:mm").format(ballotById2.getEndTime()));
@@ -60,8 +60,8 @@ public class BallotByIdTest {
     @Test
     public void testConstuctorDateSet(){
         String endTime = "11/12/12 11:45";
-        ballotById.setEndTime(endTime);
-        BallotById ballotById2 = new BallotById(ballotById);
+        this.ballotById.setEndTime(endTime);
+        BallotById ballotById2 = new BallotById(this.ballotById);
 
         assertEquals(endTime, ballotById2.getEndTime());
         assertNotNull(ballotById2.getBallotId());
@@ -71,14 +71,14 @@ public class BallotByIdTest {
     @Test
     public void testConstuctorDateSetVotersSet(){
         String endTime = "11/12/12 11:45";
-        ballotById.setEndTime(endTime);
-        ballotById.setVoters(voters);
+        this.ballotById.setEndTime(endTime);
+        this.ballotById.setVoters(this.voters);
 
-        BallotById ballotById2 = new BallotById(ballotById);
+        BallotById ballotById2 = new BallotById(this.ballotById);
 
         assertEquals(endTime, ballotById2.getEndTime());
         assertNotNull(ballotById2.getBallotId());
         assertEquals(2, ballotById2.getVoters().size());
-        assertEquals(voters, ballotById2.getVoters());
+        assertEquals(this.voters, ballotById2.getVoters());
     }
 }

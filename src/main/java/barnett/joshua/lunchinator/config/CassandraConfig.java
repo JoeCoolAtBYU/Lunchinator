@@ -26,7 +26,7 @@ public class CassandraConfig {
     }
 
     @Bean
-    public Session session() throws Exception {
+    public Session session() {
         return cluster().connect(this.env.getProperty("spring.data.cassandra.keyspace-name"));
     }
 }

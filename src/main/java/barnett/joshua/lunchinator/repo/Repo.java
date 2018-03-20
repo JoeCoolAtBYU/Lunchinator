@@ -29,25 +29,24 @@ public class Repo {
     @Autowired
     Session session;
 
-    private MappingManager mappingManager;
-    private BallotAccessor ballotAccessor;
-    private RestaurantAccessor restaurantAccessor;
-    private RestaurantReviewAccessor restaurantReviewAccessor;
-    private Mapper<BallotByIdModel> ballotModelMapper;
-    private Mapper<RestaurantModel> restaurantMapper;
-    private Mapper<RestaurantReviewModel> restaurantReviewMapper;
+    private final BallotAccessor ballotAccessor;
+    private final RestaurantAccessor restaurantAccessor;
+    private final RestaurantReviewAccessor restaurantReviewAccessor;
+    private final Mapper<BallotByIdModel> ballotModelMapper;
+    private final Mapper<RestaurantModel> restaurantMapper;
+    private final Mapper<RestaurantReviewModel> restaurantReviewMapper;
 
     @Autowired
     public Repo(Session session) {
-        this.mappingManager = new MappingManager(session);
+        MappingManager mappingManager = new MappingManager(session);
 
-        this.ballotAccessor = this.mappingManager.createAccessor(BallotAccessor.class);
-        this.restaurantAccessor = this.mappingManager.createAccessor(RestaurantAccessor.class);
-        this.restaurantReviewAccessor = this.mappingManager.createAccessor(RestaurantReviewAccessor.class);
+        this.ballotAccessor = mappingManager.createAccessor(BallotAccessor.class);
+        this.restaurantAccessor = mappingManager.createAccessor(RestaurantAccessor.class);
+        this.restaurantReviewAccessor = mappingManager.createAccessor(RestaurantReviewAccessor.class);
 
-        this.ballotModelMapper = this.mappingManager.mapper(BallotByIdModel.class);
-        this.restaurantMapper = this.mappingManager.mapper(RestaurantModel.class);
-        this.restaurantReviewMapper = this.mappingManager.mapper(RestaurantReviewModel.class);
+        this.ballotModelMapper = mappingManager.mapper(BallotByIdModel.class);
+        this.restaurantMapper = mappingManager.mapper(RestaurantModel.class);
+        this.restaurantReviewMapper = mappingManager.mapper(RestaurantReviewModel.class);
 
     }
 
@@ -95,7 +94,7 @@ public class Repo {
         return this.restaurantReviewAccessor.getAllReviews().all();
     }
 
-    public RestaurantReviewModel getRestaurantReveiwsByName(String name) {
+    public RestaurantReviewModel getRestaurantReviewsByName(String name) {
         return this.restaurantReviewAccessor.getRestaurantReview(name);
     }
 }

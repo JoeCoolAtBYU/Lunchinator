@@ -8,26 +8,26 @@ import static org.junit.Assert.assertNull;
 
 public class VoterTest {
     
-    Voter voter;
+    private Voter voter;
 
     @Before
-    public void setUp() throws Exception {
-        voter = new Voter();
+    public void setUp() {
+        this.voter = new Voter();
     }
 
     @Test
     public void testGetName() {
         String name = "Joshua";
-        voter.setName(name);
-        assertEquals(name, voter.getName());
+        this.voter.setName(name);
+        assertEquals(name, this.voter.getName());
         
     }
 
     @Test
     public void testGetEmailAddress() {
         String emailAddress = "BatmanRulesAll@batcave.wayne";
-        voter.setEmailAddress(emailAddress);
-        assertEquals(emailAddress, voter.getEmailAddress());
+        this.voter.setEmailAddress(emailAddress);
+        assertEquals(emailAddress, this.voter.getEmailAddress());
     }
 
     @Test
@@ -52,10 +52,10 @@ public class VoterTest {
     public void testConstuctor3(){
         String name = "name";
         String email = "email";
-        voter.setEmailAddress(email);
-        voter.setName(name);
+        this.voter.setEmailAddress(email);
+        this.voter.setName(name);
 
-        Voter v = new Voter(voter);
+        Voter v = new Voter(this.voter);
         assertEquals(email, v.getEmailAddress());
         assertEquals(name, v.getName());
 

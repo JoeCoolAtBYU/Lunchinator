@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -28,17 +27,15 @@ public class RestaurantReviewService {
     }
 
     private void populateRestaurantReviewTable(JsonNode result) {
-        Iterator<JsonNode> iterator = result.iterator();
 
-        while (iterator.hasNext()) {
+        for (JsonNode aResult : result) {
             RestaurantReviewModel r = new RestaurantReviewModel();
-            JsonNode nextRestObject = iterator.next();
 
-            r.setId(nextRestObject.get("Id").asInt());
-            r.setName(nextRestObject.get("restaurant").asText());
-            r.setAverageReview(nextRestObject.get("rating").asText());
-            r.setTopReviewer(nextRestObject.get("reviewer").asText());
-            r.setReview(nextRestObject.get("review").asText());
+            r.setId(aResult.get("Id").asInt());
+            r.setName(aResult.get("restaurant").asText());
+            r.setAverageReview(aResult.get("rating").asText());
+            r.setTopReviewer(aResult.get("reviewer").asText());
+            r.setReview(aResult.get("review").asText());
 
             this.repo.saveRestaurantReview(r);
         }

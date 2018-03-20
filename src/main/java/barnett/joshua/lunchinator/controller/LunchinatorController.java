@@ -27,12 +27,12 @@ public class LunchinatorController {
     public ResponseEntity<String> createBallot(@RequestBody BallotById ballotById) {
         BallotById returnBallotById = this.ballotService.getBallot(ballotById);
 
-        return new ResponseEntity<String>(returnBallotById.returnStringId(), HttpStatus.OK);
+        return new ResponseEntity<>(returnBallotById.returnStringId(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/ballot/{ballotId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<BallotChoices> getBallot(@PathVariable UUID ballotId) {
-        return new ResponseEntity<BallotChoices>(this.ballotService.getBallot(ballotId).getBallotChoices(), HttpStatus.OK);
+        return new ResponseEntity<>(this.ballotService.getBallot(ballotId).getBallotChoices(), HttpStatus.OK);
     }
 }

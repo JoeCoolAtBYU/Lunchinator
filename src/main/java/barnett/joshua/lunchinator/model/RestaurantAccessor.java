@@ -8,7 +8,7 @@ import com.datastax.driver.mapping.annotations.Query;
 public interface RestaurantAccessor {
 
     @Query("Select * from restaurant where id = ?")
-    RestaurantModel getRestaurantById(int restrauntId);
+    RestaurantModel getRestaurantById(int restaurantId);
 
     @Query("Select * from restaurant")
     Result<RestaurantModel> getAllRestaurants();

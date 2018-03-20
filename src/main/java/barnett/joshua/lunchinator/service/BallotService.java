@@ -21,18 +21,18 @@ public class BallotService {
 
     public BallotById getBallot(UUID ballotId){
         BallotByIdModel ballotById = this.repo.getBallot(ballotId);
-        if (ballotById.getBallotChoices() == null){
+        if (ballotById.getBallotChoices() == null || ballotById.getBallotChoices().getSuggestion().getId() == -1){
             this.restaurantService.getAllRestaurants();
             this.restaurantReviewService.getAllReviews();
             this.restaurantService.getFiveRestaurants(ballotById);
             this.repo.saveBallot(ballotById);
         }
-        return new BallotById(ballotById, ballotById.getVoters());
+        return new BallotById(ballotById);
     }
 
     public BallotById getBallot(BallotById ballotById){
         BallotByIdModel ballotId = this.repo.getBallot(this.repo.saveBallot(ballotById));
-        return new BallotById(ballotId, ballotId.getVoters());
+        return new BallotById(ballotId);
     }
 
 //    public BallotChoicesModel getBallotChoices(UUID ballotId) {

@@ -2,6 +2,7 @@ package barnett.joshua.lunchinator.domain;
 
 import barnett.joshua.lunchinator.exception.BallotException;
 import barnett.joshua.lunchinator.model.BallotByIdModel;
+import barnett.joshua.lunchinator.model.BallotChoicesModel;
 import barnett.joshua.lunchinator.model.VoterModel;
 import barnett.joshua.lunchinator.util.DateUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,71 +23,28 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BallotById implements Comparable<BallotById> {
-    List<Voter> voters;
+    UUID ballotId;
     String endTime;
+    List<Voter> voters;
+    BallotChoices ballotChoices;
 
     @JsonIgnore
     Date endDate;
-    UUID ballotId;
-    BallotChoices ballotChoices;
 
     public BallotById(BallotById ballotById) {
 
-        if (ballotById.getEndTime() == null) {
-            this.endTime = DateUtil.getDefaultDateTime().toString();
-            setEndDate(this.endTime);
-        } else {
-            this.endTime = ballotById.getEndTime();
-            setEndDate(this.endTime);
-        }
-
-        if (ballotById.getVoters() == null) {
-            this.voters = new ArrayList();
-        } else {
-            this.voters = ballotById.voters;
-        }
-
-        if (ballotById.getBallotId() == null) {
-            this.ballotId = UUID.randomUUID();
-        } else {
-            this.ballotId = ballotById.getBallotId();
-        }
-
-        if (ballotById.getBallotChoices() == null) {
-            this.ballotChoices = new BallotChoices();
-        } else {
-            this.ballotChoices = ballotById.getBallotChoices();
-        }
+        this.setBallotId(ballotById.getBallotId());
+        this.setEndTime(ballotById.getEndTime());
+        this.setVoters(ballotById.getVoters());
+        this.setBallotChoices(ballotById.getBallotChoices());
     }
 
-    public BallotById(BallotByIdModel ballot, List<VoterModel> voters) {
+    public BallotById(BallotByIdModel ballot) {
 
-        if (ballot.getEndTime() == null) {
-            this.endTime = DateUtil.getDefaultDateTime().toString();
-            setEndDate(this.endTime);
-        } else {
-            this.endTime = ballot.getEndTime();
-            setEndDate(this.endTime);
-        }
-
-        if (ballot.getVoters() == null) {
-            this.voters = new ArrayList();
-        } else {
-            this.voters = voters.stream().map(voter -> new Voter(voter)).collect(Collectors.toList());
-        }
-
-        if (ballot.getBallotId() == null) {
-            this.ballotId = UUID.randomUUID();
-        } else {
-            this.ballotId = ballot.getBallotId();
-        }
-
-        if (ballot.getBallotChoices() == null) {
-
-            this.ballotChoices = new BallotChoices();
-        } else {
-            this.ballotChoices = new BallotChoices(ballot.getBallotChoices());
-        }
+        this.setBallotId(ballot.getBallotId());
+        this.setEndTime(ballot.getEndTime());
+        this.setVotersFromModel(ballot.getVoters());
+        this.setBallotChoicesFromModel(ballot.getBallotChoices());
 
     }
 
@@ -97,8 +55,11 @@ public class BallotById implements Comparable<BallotById> {
     }
 
     public void setEndTime(String endTime) {
-        this.endTime = endTime;
-
+        if (endTime == null) {
+            this.endTime = DateUtil.getDefaultDateTime().toString();
+        } else {
+            this.endTime = endTime;
+        }
         setEndDate(endTime);
     }
 
@@ -130,11 +91,11 @@ public class BallotById implements Comparable<BallotById> {
         }
     }
 
-    public void setEndDate(Date endDate) {
-        if (endDate == null) {
-            this.endDate = DateUtil.getDefaultDateTime();
+    public void setVotersFromModel(List<VoterModel> voters) {
+        if (voters == null) {
+            this.voters = new ArrayList<>();
         } else {
-            this.endDate = endDate;
+            this.voters = voters.stream().map(voter -> new Voter(voter)).collect(Collectors.toList());
         }
     }
 
@@ -154,8 +115,20 @@ public class BallotById implements Comparable<BallotById> {
         }
     }
 
+    public void setBallotChoicesFromModel(BallotChoicesModel ballotChoices) {
+        if (ballotChoices == null) {
+            this.ballotChoices = new BallotChoices();
+        } else {
+            this.ballotChoices = new BallotChoices(ballotChoices);
+        }
+    }
+
     public BallotChoices getBallotChoices() {
-        Collections.shuffle(this.ballotChoices.getChoices());
+        if (this.ballotChoices == null) {
+            this.ballotChoices = new BallotChoices();
+        } else {
+            Collections.shuffle(this.ballotChoices.getChoices());
+        }
         return this.ballotChoices;
     }
 }

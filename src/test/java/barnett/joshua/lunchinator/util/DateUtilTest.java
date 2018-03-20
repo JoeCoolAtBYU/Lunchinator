@@ -13,7 +13,7 @@ public class DateUtilTest {
     private SimpleDateFormat localDateFormat;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         this.localDateFormat = new SimpleDateFormat("HH:mm");
     }
 

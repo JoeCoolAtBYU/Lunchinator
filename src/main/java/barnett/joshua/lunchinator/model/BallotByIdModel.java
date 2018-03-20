@@ -36,10 +36,19 @@ public class BallotByIdModel {
         }
         this.endTime = ballotById.getEndTime();
         this.voters = ballotById.getVoters().stream().map(voter -> new VoterModel(voter)).collect(Collectors.toList());
+        this.setBallotChoices(new BallotChoicesModel(ballotById.getBallotChoices()));
     }
 
     public BallotChoicesModel getBallotChoices() {
         Collections.shuffle(this.ballotChoices.getChoices());
         return this.ballotChoices;
+    }
+
+    public void setBallotChoices(BallotChoicesModel ballotChoices){
+        if (ballotChoices == null){
+            this.ballotChoices = new BallotChoicesModel();
+        } else {
+            this.ballotChoices = ballotChoices;
+        }
     }
 }

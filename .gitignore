@@ -76,3 +76,6 @@ fabric.properties
 
 .idea/
 lunchinator.iml
+src/main/java/barnett/untitled folder/
+target/generated-sources/
+target/generated-test-sources/

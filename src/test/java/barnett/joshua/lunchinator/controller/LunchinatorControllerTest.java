@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -38,18 +37,17 @@ public class LunchinatorControllerTest {
 
     private ObjectMapper objectMapper;
     private BallotById testBallotById;
-    UUID ballotId = UUID.randomUUID();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         this.mockMvc = standaloneSetup(this.controller).build();
 
-        objectMapper = new ObjectMapper();
+        this.objectMapper = new ObjectMapper();
 
-        testBallotById = new BallotById();
-        testBallotById.setEndTime("11/12/12 11:45");
-        testBallotById.setVoters(new ArrayList());
+        this.testBallotById = new BallotById();
+        this.testBallotById.setEndTime("11/12/12 11:45");
+        this.testBallotById.setVoters(new ArrayList());
 
 
     }
@@ -58,7 +56,7 @@ public class LunchinatorControllerTest {
     public void createBallot() throws Exception {
         MvcResult test = this.mockMvc.perform(post("/api/create-ballot")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsBytes(testBallotById)))
+                .content(this.objectMapper.writeValueAsBytes(this.testBallotById)))
                 .andExpect(status().isOk())
                 .andReturn();
 

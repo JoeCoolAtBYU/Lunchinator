@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -36,28 +35,24 @@ public class RestaurantService {
         }
     }
 
-    private List<RestaurantModel> populateRestaurantTable(JsonNode result) {
+    private void populateRestaurantTable(JsonNode result) {
 
-        Iterator<JsonNode> iterator = result.iterator();
-        List<RestaurantModel> restaurantModels = new ArrayList<>();
-
-        while (iterator.hasNext()) {
+        for (JsonNode aResult : result) {
             List<String> restTypes = new ArrayList<>();
             RestaurantModel r = new RestaurantModel();
-            JsonNode nextRestObject = iterator.next();
 
-            r.setId(nextRestObject.get("id").asInt());
-            r.setName(nextRestObject.get("name").asText());
-            if (nextRestObject.get("waitTimeMinutes") == null) {
-                r.setWaitTimeMinutes(nextRestObject.get("waitTimeMin").asInt());
+            r.setId(aResult.get("id").asInt());
+            r.setName(aResult.get("name").asText());
+            if (aResult.get("waitTimeMinutes") == null) {
+                r.setWaitTimeMinutes(aResult.get("waitTimeMin").asInt());
             } else {
-                r.setWaitTimeMinutes(nextRestObject.get("waitTimeMinutes").asInt());
+                r.setWaitTimeMinutes(aResult.get("waitTimeMinutes").asInt());
             }
 
-            JsonNode types = nextRestObject.get("types");
+            JsonNode types = aResult.get("types");
 
             if (types == null) {
-                types = nextRestObject.get("type");
+                types = aResult.get("type");
             }
 
             if (types != null && types.isArray()) {
@@ -68,20 +63,17 @@ public class RestaurantService {
 
             r.setTypes(restTypes);
 
-            JsonNode image = nextRestObject.get("image");
+            JsonNode image = aResult.get("image");
             if (image != null) {
                 r.setImage(image.asText());
             } else {
                 r.setImage("");
             }
 
-            r.setDescription(nextRestObject.get("description").asText());
+            r.setDescription(aResult.get("description").asText());
 
             this.repo.saveRestaurant(r);
-
-            restaurantModels.add(r);
         }
-        return restaurantModels;
     }
 
     public void getFiveRestaurants(BallotByIdModel ballotModel) {
@@ -89,14 +81,14 @@ public class RestaurantService {
         List<RestaurantModel> fiveRestaurantsList;
         List<RestaurantReviewModel> reviewModels = new ArrayList<>();
 
-        if (ballotModel.getBallotChoices() == null) {
+        if (ballotModel.getBallotChoices() == null || ballotModel.getBallotChoices().getSuggestion().getId() == -1) {
             getFiveRandomRestaurants(fiveRestaurants);
         }
 
         fiveRestaurantsList = new ArrayList<>(fiveRestaurants.values());
 
         for (RestaurantModel r : fiveRestaurantsList) {
-            reviewModels.add(this.repo.getRestaurantReveiwsByName(r.getName()));
+            reviewModels.add(this.repo.getRestaurantReviewsByName(r.getName()));
         }
 
         ballotModel.setBallotChoices(new BallotChoicesModel(reviewModels));

@@ -1,0 +1,11 @@
+barnett.joshua.lunchinator
+barnett.joshua.lunchinator.config
+barnett.joshua.lunchinator.controller
+barnett.joshua.lunchinator.domain
+barnett.joshua.lunchinator.exception
+barnett.joshua.lunchinator.model
+barnett.joshua.lunchinator.model.accessors
+barnett.joshua.lunchinator.repo
+barnett.joshua.lunchinator.service
+barnett.joshua.lunchinator.swagger
+barnett.joshua.lunchinator.util

@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,9 @@ public class BallotByIdModel {
 
     @Column(name = "ballotChoices")
     BallotChoicesModel ballotChoices;
+
+    @Column(name = "votes")
+    Map<VoteKey, Vote> votes;
 
     public BallotByIdModel(BallotById ballotById) {
         if (ballotById.getBallotId() == null) {
@@ -50,5 +55,13 @@ public class BallotByIdModel {
         } else {
             this.ballotChoices = ballotChoices;
         }
+    }
+
+    public void setVotes(VoteKey key, Vote vote) {
+        if (this.votes == null){
+            this.votes = new HashMap<>();
+        }
+
+        this.votes.put(key, vote);
     }
 }

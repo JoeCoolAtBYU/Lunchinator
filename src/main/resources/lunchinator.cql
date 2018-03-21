@@ -9,9 +9,13 @@ name text,
 emailAddress text
 );
 
-CREATE TYPE lunch.vote (
+CREATE TYPE lunch.voteKey (
 ballotId UUID,
-emailAddress text,
+emailAddress text
+);
+
+CREATE TYPE lunch.vote (
+key frozen <voteKey>,
 restaurantId int,
 voterName text
 );
@@ -43,7 +47,7 @@ ballotId UUID,
 endTime text,
 voters list < frozen< voter > >,
 ballotChoices frozen<ballotChoices>,
-votes map<text, frozen<vote>>,
+votes map<frozen<voteKey>, frozen<vote>>,
 PRIMARY KEY (ballotId)
 );
 
@@ -55,4 +59,4 @@ types List < text >,
 image text,
 description text,
 PRIMARY KEY (id, name)
-);
+);ele

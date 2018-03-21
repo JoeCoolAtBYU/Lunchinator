@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +35,11 @@ public class LunchinatorController {
     @ResponseBody
     public ResponseEntity<BallotChoices> getBallot(@PathVariable UUID ballotId) {
         return new ResponseEntity<>(this.ballotService.getBallot(ballotId).getBallotChoices(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/vote", method = RequestMethod.POST)
+    @ResponseBody
+    public void vote(@RequestParam int id, @RequestParam UUID ballotId, @RequestParam String voterName, @RequestParam String emailAddress) {
+        this.ballotService.vote(id, ballotId, voterName, emailAddress);
     }
 }

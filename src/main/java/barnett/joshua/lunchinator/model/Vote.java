@@ -1,8 +1,7 @@
 package barnett.joshua.lunchinator.model;
 
-import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Field;
 import com.datastax.driver.mapping.annotations.UDT;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,18 +9,21 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @UDT(keyspace = "lunch", name = "vote")
 public class Vote {
-    @PartitionKey(0)
-    UUID ballotId;
+    @Field(name = "key")
+    VoteKey voteKey;
 
-    @PartitionKey(1)
-    String eamilAddress;
-
+    @Field(name = "restaurantId")
     int restaurantId;
+    @Field(name = "voterName")
     String voterName;
 
+    public Vote(int restaurantId, String voterEmail, UUID ballotId, String voterName){
+        this.voteKey = new VoteKey(ballotId, voterEmail);
+        this.restaurantId = restaurantId;
+        this.voterName = voterName;
+    }
 
 }
 

@@ -2,6 +2,7 @@ package barnett.joshua.lunchinator.service;
 
 import barnett.joshua.lunchinator.domain.BallotById;
 import barnett.joshua.lunchinator.model.BallotByIdModel;
+import barnett.joshua.lunchinator.model.Vote;
 import barnett.joshua.lunchinator.repo.Repo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,13 @@ public class BallotService {
     public BallotById getBallot(BallotById ballotById){
         BallotByIdModel ballotId = this.repo.getBallot(this.repo.saveBallot(ballotById));
         return new BallotById(ballotId);
+    }
+
+    public void vote(int restaurantId, UUID ballotId, String voterName, String voterEmail) {
+        BallotByIdModel ballot = this.repo.getBallot(ballotId);
+        Vote v = new Vote(restaurantId, voterEmail, ballotId, voterName);
+        ballot.setVotes(v.getVoteKey(), v);
+        this.repo.saveBallot(ballot);
     }
 
 //    public BallotChoicesModel getBallotChoices(UUID ballotId) {

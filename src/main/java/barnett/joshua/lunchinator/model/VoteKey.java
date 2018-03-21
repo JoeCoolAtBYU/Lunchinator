@@ -1,5 +1,7 @@
 package barnett.joshua.lunchinator.model;
 
+import com.datastax.driver.mapping.annotations.Field;
+import com.datastax.driver.mapping.annotations.UDT;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +12,12 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@UDT(name = "voteKey")
 public class VoteKey {
 
+    @Field(name = "ballotId")
     UUID ballotId;
+    @Field(name = "emailAddress")
     String emailAddress;
 
     @Override

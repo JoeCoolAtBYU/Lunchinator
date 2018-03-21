@@ -39,7 +39,13 @@ public class SwaggerAutoConfiguration {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo(this.swaggerProperties.getApiLongName(), this.swaggerProperties.getApiDescription(), this.swaggerProperties.getApiVersion(), this.swaggerProperties.getTermsOfServiceUrl(), this.swaggerProperties.getDeveloperEmail(), this.swaggerProperties.getLicense(), this.swaggerProperties.getLicenseUrl());
+        return new ApiInfo(this.swaggerProperties.getApiLongName(),
+                this.swaggerProperties.getApiDescription(),
+                this.swaggerProperties.getApiVersion(),
+                this.swaggerProperties.getTermsOfServiceUrl(),
+                this.swaggerProperties.getDeveloperEmail(),
+                this.swaggerProperties.getLicense(),
+                this.swaggerProperties.getLicenseUrl());
     }
 
 }

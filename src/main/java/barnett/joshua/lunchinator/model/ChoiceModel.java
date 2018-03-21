@@ -30,7 +30,7 @@ public class ChoiceModel implements Comparable<ChoiceModel> {
     }
 
     public ChoiceModel(RestaurantReviewModel model) {
-        this.id = model.getId();
+        this.id = model.getRestaurantId();
         this.name = model.getName();
         this.averageReview = model.getAverageReview();
         this.topReviewer = model.getTopReviewer();

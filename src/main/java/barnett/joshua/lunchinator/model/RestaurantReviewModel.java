@@ -3,6 +3,8 @@ package barnett.joshua.lunchinator.model;
 import barnett.joshua.lunchinator.domain.RestaurantReview;
 import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.Transient;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +27,10 @@ public class RestaurantReviewModel implements Comparable<RestaurantReviewModel> 
 
     @Column(name = "review")
     String review;
+
+    @JsonIgnore
+    @Transient
+    int restaurantId;
 
     public RestaurantReviewModel(RestaurantReview restaurantReview) {
         this.id = restaurantReview.getId();

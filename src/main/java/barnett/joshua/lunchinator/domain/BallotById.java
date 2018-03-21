@@ -72,7 +72,7 @@ public class BallotById implements Comparable<BallotById> {
         setEndDate(endTime);
     }
 
-    private void setEndDate(String endTime) {
+    public void setEndDate(String endTime) {
         try {
             //"3/20/17 11:45"
             this.endDate = new SimpleDateFormat("M/dd/yy HH:mm").parse(endTime);

@@ -88,7 +88,9 @@ public class RestaurantService {
         fiveRestaurantsList = new ArrayList<>(fiveRestaurants.values());
 
         for (RestaurantModel r : fiveRestaurantsList) {
-            reviewModels.add(this.repo.getRestaurantReviewsByName(r.getName()));
+            RestaurantReviewModel restaurantReviewsByName = this.repo.getRestaurantReviewsByName(r.getName());
+            restaurantReviewsByName.setRestaurantId(r.getId());
+            reviewModels.add(restaurantReviewsByName);
         }
 
         ballotModel.setBallotChoices(new BallotChoicesModel(reviewModels));

@@ -9,9 +9,24 @@ name text,
 emailAddress text
 );
 
+CREATE TYPE lunch.vote (
+ballotId UUID,
+emailAddress text,
+restaurantId int,
+voterName text
+);
+
+CREATE TYPE lunch.choice (
+id int,
+name text,
+averageReview text,
+topReviewer text,
+review text
+);
+
 CREATE TYPE lunch.ballotChoices (
-suggestion text,
-choices text
+suggestion frozen<choice>,
+choices List<frozen<choice>>
 );
 
 CREATE TABLE lunch.restaurantReview (
@@ -27,7 +42,8 @@ CREATE TABLE lunch.ballotById (
 ballotId UUID,
 endTime text,
 voters list < frozen< voter > >,
-ballotChoices text,
+ballotChoices frozen<ballotChoices>,
+votes map<text, frozen<vote>>,
 PRIMARY KEY (ballotId)
 );
 

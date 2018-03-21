@@ -1,6 +1,5 @@
 package barnett.joshua.lunchinator.repo;
 
-import barnett.joshua.lunchinator.Application;
 import barnett.joshua.lunchinator.domain.BallotById;
 import barnett.joshua.lunchinator.exception.BallotNotFoundException;
 import barnett.joshua.lunchinator.model.BallotByIdModel;
@@ -24,7 +23,7 @@ import java.util.UUID;
 
 @Repository("cassandra")
 public class Repo {
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(Repo.class);
 
     @Autowired
     Session session;

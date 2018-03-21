@@ -50,10 +50,13 @@ public class BallotByIdTest {
 
     @Test
     public void testConstructor() {
+        this.ballotById.setEndTime("12/31/31 11:45");
+        this.ballotById.setVoters(new ArrayList<>());
+        this.ballotById.setBallotChoices(new BallotChoices());
         BallotById ballotById2 = new BallotById(this.ballotById);
 
         assertNotNull(ballotById2.getBallotId());
-        assertEquals("11:45", new SimpleDateFormat("HH:mm").format(ballotById2.getEndTime()));
+        assertEquals("11:45", new SimpleDateFormat("HH:mm").format(ballotById2.getEndDate()));
 
     }
 

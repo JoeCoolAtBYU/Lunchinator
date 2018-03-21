@@ -1,11 +1,13 @@
 package barnett.joshua.lunchinator.controller;
 
 import barnett.joshua.lunchinator.domain.BallotById;
+import barnett.joshua.lunchinator.service.BallotService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -35,6 +38,9 @@ public class LunchinatorControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Mock
+    BallotService ballotService;
+
     private ObjectMapper objectMapper;
     private BallotById testBallotById;
 
@@ -46,7 +52,7 @@ public class LunchinatorControllerTest {
         this.objectMapper = new ObjectMapper();
 
         this.testBallotById = new BallotById();
-        this.testBallotById.setEndTime("11/12/12 11:45");
+        this.testBallotById.setEndTime("11/12/20 11:45");
         this.testBallotById.setVoters(new ArrayList());
 
 
@@ -54,6 +60,9 @@ public class LunchinatorControllerTest {
 
     @Test
     public void createBallot() throws Exception {
+
+        when(ballotService.getBallot(this.testBallotById)).thenReturn(this.testBallotById);
+
         MvcResult test = this.mockMvc.perform(post("/api/create-ballot")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsBytes(this.testBallotById)))

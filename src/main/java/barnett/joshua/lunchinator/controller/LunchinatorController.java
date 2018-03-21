@@ -2,6 +2,7 @@ package barnett.joshua.lunchinator.controller;
 
 import barnett.joshua.lunchinator.domain.BallotById;
 import barnett.joshua.lunchinator.domain.BallotChoices;
+import barnett.joshua.lunchinator.exception.VoteTimePassedException;
 import barnett.joshua.lunchinator.service.BallotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.UUID;
 
 @RestController
@@ -34,12 +36,22 @@ public class LunchinatorController {
     @RequestMapping(value = "/ballot/{ballotId}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<BallotChoices> getBallot(@PathVariable UUID ballotId) {
-        return new ResponseEntity<>(this.ballotService.getBallot(ballotId).getBallotChoices(), HttpStatus.OK);
+        BallotById ballot = this.ballotService.getBallot(ballotId);
+        if (!ballot.getEndDate().before(new Date())) {
+            return new ResponseEntity<>(ballot.getBallotChoices(), HttpStatus.OK);
+        } else {
+            return null;
+        }
     }
 
     @RequestMapping(value = "/vote", method = RequestMethod.POST)
     @ResponseBody
     public void vote(@RequestParam int id, @RequestParam UUID ballotId, @RequestParam String voterName, @RequestParam String emailAddress) {
-        this.ballotService.vote(id, ballotId, voterName, emailAddress);
+        BallotById ballot = this.ballotService.getBallot(ballotId);
+        if (!ballot.getEndDate().before(new Date())) {
+            this.ballotService.vote(id, ballotId, voterName, emailAddress);
+        } else {
+            throw new VoteTimePassedException();
+        }
     }
 }

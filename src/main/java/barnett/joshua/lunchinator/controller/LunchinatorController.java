@@ -1,8 +1,9 @@
 package barnett.joshua.lunchinator.controller;
 
 import barnett.joshua.lunchinator.domain.BallotById;
-import barnett.joshua.lunchinator.domain.BallotChoices;
+import barnett.joshua.lunchinator.domain.VotingResults;
 import barnett.joshua.lunchinator.exception.VoteTimePassedException;
+import barnett.joshua.lunchinator.repo.Repo;
 import barnett.joshua.lunchinator.service.BallotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class LunchinatorController {
     @Autowired
     BallotService ballotService;
 
+    @Autowired
+    Repo repo;
+
     @RequestMapping(value = "/create-ballot", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> createBallot(@RequestBody BallotById ballotById) {
@@ -35,12 +39,12 @@ public class LunchinatorController {
 
     @RequestMapping(value = "/ballot/{ballotId}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<BallotChoices> getBallot(@PathVariable UUID ballotId) {
+    public ResponseEntity<?> getBallot(@PathVariable UUID ballotId) {
         BallotById ballot = this.ballotService.getBallot(ballotId);
         if (!ballot.getEndDate().before(new Date())) {
-            return new ResponseEntity<>(ballot.getBallotChoices(), HttpStatus.OK);
+            return ResponseEntity.ok(ballot.getBallotChoices());
         } else {
-            return null;
+            return ResponseEntity.ok(new VotingResults(ballot, this.repo));
         }
     }
 

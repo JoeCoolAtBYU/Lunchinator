@@ -3,8 +3,11 @@ package barnett.joshua.lunchinator.domain;
 import barnett.joshua.lunchinator.exception.BallotException;
 import barnett.joshua.lunchinator.model.BallotByIdModel;
 import barnett.joshua.lunchinator.model.BallotChoicesModel;
+import barnett.joshua.lunchinator.model.Vote;
+import barnett.joshua.lunchinator.model.VoteKey;
 import barnett.joshua.lunchinator.model.VoterModel;
 import barnett.joshua.lunchinator.util.DateUtil;
+import com.datastax.driver.mapping.annotations.Transient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,7 +33,11 @@ public class BallotById implements Comparable<BallotById> {
     BallotChoices ballotChoices;
 
     @JsonIgnore
+    @Transient
     Date endDate;
+    @JsonIgnore
+    @Transient
+    Map<VoteKey, Vote> votes;
 
     public BallotById(BallotById ballotById) {
 
@@ -45,6 +53,7 @@ public class BallotById implements Comparable<BallotById> {
         this.setEndTime(ballot.getEndTime());
         this.setVotersFromModel(ballot.getVoters());
         this.setBallotChoicesFromModel(ballot.getBallotChoices());
+        this.setVotes(ballot.getVotes());
 
     }
 

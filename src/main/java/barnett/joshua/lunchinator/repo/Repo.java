@@ -2,6 +2,7 @@ package barnett.joshua.lunchinator.repo;
 
 import barnett.joshua.lunchinator.domain.BallotById;
 import barnett.joshua.lunchinator.exception.BallotNotFoundException;
+import barnett.joshua.lunchinator.exception.RestaurantNotFoundException;
 import barnett.joshua.lunchinator.model.BallotByIdModel;
 import barnett.joshua.lunchinator.model.RestaurantModel;
 import barnett.joshua.lunchinator.model.RestaurantReviewModel;
@@ -95,5 +96,13 @@ public class Repo {
 
     public RestaurantReviewModel getRestaurantReviewsByName(String name) {
         return this.restaurantReviewAccessor.getRestaurantReview(name);
+    }
+
+    public RestaurantModel getRestaurantById(int restaurantId) {
+        RestaurantModel restaurantById = this.restaurantAccessor.getRestaurantById(restaurantId);
+        if (restaurantById == null){
+            throw new RestaurantNotFoundException(restaurantId);
+        }
+        return restaurantById;
     }
 }

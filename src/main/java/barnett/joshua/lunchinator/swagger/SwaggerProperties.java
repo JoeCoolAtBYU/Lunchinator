@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
         prefix = "barnett.docs"
 )
 public class SwaggerProperties {
-    private String apiVersion = "0.0.0";
+    private String apiVersion = "0.0.1";
     private String[] documentedEndpoints = new String[]{"/.*"};
     private String apiLongName = "No Version Name Specified";
     private String apiDescription = "No API Description Given";

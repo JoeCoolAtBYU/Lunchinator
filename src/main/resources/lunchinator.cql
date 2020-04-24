@@ -59,4 +59,4 @@ types List < text >,
 image text,
 description text,
 PRIMARY KEY (id, name)
-);ele
+);

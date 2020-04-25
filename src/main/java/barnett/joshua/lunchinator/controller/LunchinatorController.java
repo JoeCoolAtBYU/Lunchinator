@@ -6,21 +6,11 @@ import barnett.joshua.lunchinator.exception.BallotException;
 import barnett.joshua.lunchinator.exception.VoteTimePassedException;
 import barnett.joshua.lunchinator.repo.Repo;
 import barnett.joshua.lunchinator.service.BallotService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.UUID;
@@ -35,7 +25,7 @@ public class LunchinatorController {
     @Autowired
     Repo repo;
 
-    @RequestMapping(value = "/create-ballot", method = RequestMethod.POST)
+    @PostMapping(value = "/create-ballot")
     @ResponseBody
     @ApiResponses(value = {@ApiResponse(code = 409, message = "You will get this if the expiration date is already in the past.")})
     @ApiOperation(value = "creates a new ballot")
@@ -50,7 +40,7 @@ public class LunchinatorController {
 
     }
 
-    @RequestMapping(value = "/ballot/{ballotId}", method = RequestMethod.GET)
+    @GetMapping(value = "/ballot/{ballotId}")
     @ResponseBody
     @ApiResponses(value = {@ApiResponse(code = 409, message = "You will get this if the expiration date is already in the past.")})
     @ApiOperation(value = "This endpoint will return the Current choices of restaurants to choose from if the date and time is before the expiration date of the balllot" +
@@ -64,7 +54,7 @@ public class LunchinatorController {
         }
     }
 
-    @RequestMapping(value = "/vote", method = RequestMethod.POST)
+    @PostMapping(value = "/vote")
     @ResponseBody
     @ApiResponses(value = {@ApiResponse(code = 409, message = "You will get this if the expiration date is already in the past.")})
     @ApiOperation(value = "Adds votes for each restaurant on the specified ballot.")
